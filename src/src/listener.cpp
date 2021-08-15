@@ -69,26 +69,13 @@ int main() {
     std::string userInput;
 
     do {
-
-        // Prompt the user for some text
-        std::cout << "> ";
-        std::getline(std::cin, userInput);
-
-        if (userInput.size() > 0) { // Make sure the user typed something
-            // Send the text
-            int sendResult = send(sock, userInput.c_str(), userInput.size() + 1, 0);
-            if (sendResult != SOCKET_ERROR) {
-                // Wait for response
-                ZeroMemory(buf, 4096);
-                int bytesReceived = recv(sock, buf, 4096, 0);
-                if (bytesReceived > 0) {
-                    // Echo response to console
-                    std::cout << "SERVER> " << std::string(buf, 0, bytesReceived) << std::endl;
-                }
-            }
-        }
-
-    } while (userInput.size() > 0);
+      ZeroMemory(buf, 4096);
+      int bytesReceived = recv(sock, buf, 4096, 0);
+      if (bytesReceived > 0) {
+        // Echo response to console
+        std::cout << "SERVER> " << std::string(buf, 0, bytesReceived) << std::endl;
+      }
+    } while (true);
 
     // Gracefully close down everything
     closesocket(sock);
